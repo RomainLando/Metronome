@@ -5,19 +5,26 @@ import SoundsContainer from "../Components/SoundsContainer";
 import { useEffect, useState } from "react";
 
 
-
 const MetronomeContainer = () => {
 
+    const [sounds, setSounds] = useState([
+        { name:"clap", aud:new Audio('/sounds/Perc_Clap_lo.wav')},
+        { name:"click", aud:new Audio('/sounds/Perc_ClickToy_hi.wav')},
+        { name:"quartz", aud:new Audio('/sounds/Perc_MetronomeQuartz_lo.wav')},
+        { name:"snap", aud:new Audio('/sounds/Perc_Snap_lo.wav')},
+        { name:"sine", aud:new Audio('/sounds/Synth_Sine_A_lo.wav')}
+    ]);
     const [bpm, setBpm] = useState(60);
-    const [audio, setAudio] = useState(new Audio('/sounds/Perc_MetronomeQuartz_lo.wav'))
-    const [isPlaying, setIsPlaying] = useState(false)
-    const [intervalID, setIntervalID] = useState(false)
+    const [audio, setAudio] = useState(sounds[0].aud);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [intervalID, setIntervalID] = useState(false);
+
 
     useEffect(() => {
         clearInterval(intervalID);
         if (isPlaying) {
             setIntervalID(setInterval(Play, 60000/bpm))};
-    }, [bpm, isPlaying]);
+    }, [bpm, isPlaying, audio]);
 
     const handleSlider = (evt) => {
         setBpm(+evt.target.value);
@@ -37,8 +44,12 @@ const MetronomeContainer = () => {
         }
     }
 
+    const clickSound = (evt) => {
+        console.log(evt.target.id);
+        setAudio(sounds[evt.target.id].aud)
+    }
+
     const Play = () => {
-        console.log(audio);
         audio.play();
     }
 
@@ -54,7 +65,7 @@ const MetronomeContainer = () => {
              handlePlusClick={handlePlusClick}
               bpm={bpm}/>
             <MetronomeButton playPause={playPause}/>
-            <SoundsContainer />
+            <SoundsContainer clickSound={clickSound} sounds={sounds}/>
         </div>
         
     )

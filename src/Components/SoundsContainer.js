@@ -1,10 +1,11 @@
 import Sound from "./Sound";
 
-const SoundsContainer = () => {
+const SoundsContainer = ({clickSound, sounds}) => {
 
 
     return(
-        <Sound />
+            <Sound clickSound={clickSound} sounds={sounds}/>
+        
     )
 }
 

@@ -1,8 +1,13 @@
-const Sound = () => {
-    
+
+const Sound = ({clickSound, sounds}) => {
+    const SoundOptions = sounds.map((element, index) => {
+       return <button key={index} id={index} onClick={clickSound}>{element.name}</button>
+    })
 
     return(
-        <h3>I am the sound</h3>
+        <ul>
+            {SoundOptions}
+        </ul>
     )
 }
 
